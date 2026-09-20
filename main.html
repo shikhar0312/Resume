@@ -16,37 +16,46 @@
   --surface:   #161616;
   --surface2:  #1c1c1c;
   --border:    #2a2a2a;
-  --border2:   #333333;
+  --border2:   #383838;
   --text:      #ebebeb;
   --sub:       #888888;
   --faint:     #555555;
-  --accent:    #ffffff;
   --green:     #4ade80;
   --green-bg:  rgba(74,222,128,0.08);
   --green-bd:  rgba(74,222,128,0.25);
   --hover-bg:  rgba(255,255,255,0.04);
+  /* canvas */
+  --c-node:      rgba(160,160,170,0.65);
+  --c-node-h:    rgba(220,220,230,0.95);
+  --c-line:      rgba(160,160,170,;
+  --c-line-h:    rgba(220,220,230,;
+  /* hero text gradient */
+  --g1:#e2e2e2; --g2:#a0a0aa; --g3:#c8c8d0;
 }
 [data-theme="light"] {
   --bg:        #f5f5f5;
   --surface:   #ffffff;
   --surface2:  #f0f0f0;
   --border:    #e0e0e0;
-  --border2:   #d0d0d0;
+  --border2:   #cccccc;
   --text:      #111111;
   --sub:       #666666;
   --faint:     #aaaaaa;
-  --accent:    #111111;
   --green:     #16a34a;
   --green-bg:  rgba(22,163,74,0.07);
   --green-bd:  rgba(22,163,74,0.25);
   --hover-bg:  rgba(0,0,0,0.03);
+  --c-node:      rgba(80,80,90,0.55);
+  --c-node-h:    rgba(30,30,40,0.85);
+  --c-line:      rgba(80,80,90,;
+  --c-line-h:    rgba(30,30,40,;
+  --g1:#111111; --g2:#444444; --g3:#222222;
 }
 
 /* ─── Reset ─── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { -webkit-text-size-adjust: 100%; }
 @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
-
 body {
   background: var(--bg);
   color: var(--text);
@@ -57,125 +66,151 @@ body {
   transition: background .3s, color .3s;
 }
 a { color: inherit; text-decoration: none; }
-img { display: block; max-width: 100%; }
 
-/* ─── Top nav — CENTERED ─── */
+/* ─── Centered nav pill ─── */
 .nav-wrap {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  display: flex; justify-content: center; align-items: center;
+  display: flex; justify-content: center;
   padding: 0.85rem 1.5rem;
   pointer-events: none;
 }
 .nav-pill {
   pointer-events: auto;
-  display: flex; align-items: center; gap: 0.25rem;
+  display: flex; align-items: center; gap: 0.2rem;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 999px;
-  padding: 0.35rem 0.5rem;
-  box-shadow: 0 2px 20px rgba(0,0,0,0.18);
-  backdrop-filter: blur(12px);
+  padding: 0.3rem 0.45rem;
+  box-shadow: 0 2px 24px rgba(0,0,0,0.22);
+  backdrop-filter: blur(14px);
 }
 .nav-pill a {
   font-size: 13px; color: var(--sub); font-weight: 500;
-  padding: 0.3rem 0.9rem; border-radius: 999px;
+  padding: 0.28rem 0.85rem; border-radius: 999px;
   transition: background .15s, color .15s;
 }
 .nav-pill a:hover { background: var(--hover-bg); color: var(--text); }
-.nav-sep { width: 1px; height: 16px; background: var(--border); margin: 0 0.1rem; }
+.nav-sep { width: 1px; height: 14px; background: var(--border); margin: 0 0.15rem; }
 .nav-theme {
-  font-size: 12px; color: var(--sub);
-  padding: 0.3rem 0.85rem; border-radius: 999px;
-  cursor: pointer; background: none; border: none;
-  font-family: inherit; font-weight: 500;
+  font-size: 12px; color: var(--sub); font-weight: 500;
+  padding: 0.28rem 0.85rem; border-radius: 999px;
+  cursor: pointer; background: none; border: none; font-family: inherit;
   transition: background .15s, color .15s;
 }
 .nav-theme:hover { background: var(--hover-bg); color: var(--text); }
 
-/* ─── Page ─── */
-.page {
-  width: min(760px, 100% - 3rem);
-  margin: 0 auto;
-  padding: 6.5rem 0 7rem;
+/* ═══════════════════════════
+   HERO — full screen, centred
+   ═══════════════════════════ */
+.hero {
+  position: relative;
+  min-height: 100vh; min-height: 100svh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center; overflow: hidden;
+}
+#net {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; display: block;
 }
 
-/* ─── Hero ─── */
-.hero {
-  display: flex; align-items: center; gap: 2rem;
-  padding: 0 0 3rem;
-  border-bottom: 1px solid var(--border);
-  margin-bottom: 3.5rem;
+/* radial fog so text stays readable */
+.hero-fog {
+  position: absolute; inset: 0; pointer-events: none;
 }
-.avatar {
-  width: 96px; height: 96px; border-radius: 50%;
-  border: 2px solid var(--border2);
-  background: var(--surface2);
-  overflow: hidden; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
+[data-theme="dark"]  .hero-fog { background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(14,14,14,.82) 0%, transparent 100%); }
+[data-theme="light"] .hero-fog { background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(245,245,245,.85) 0%, transparent 100%); }
+
+.hero-inner {
+  position: relative; z-index: 2;
+  padding: 2rem 1.5rem;
+  display: flex; flex-direction: column; align-items: center; gap: 0;
 }
-.avatar img { width: 100%; height: 100%; object-fit: cover; }
-.avatar-ph {
-  font-size: 11px; color: var(--faint);
-  text-align: center; line-height: 1.5;
-}
-.hero-text {}
+
+/* Large gradient name */
 .hero-name {
-  font-size: 36px; font-weight: 700;
-  letter-spacing: -0.6px; line-height: 1.15;
+  font-size: clamp(4rem, 16vw, 11rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 0.92;
+  background: linear-gradient(135deg, var(--g1) 0%, var(--g2) 50%, var(--g3) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  user-select: none;
 }
 .hero-role {
-  font-size: 15px; color: var(--sub); margin-top: 6px;
-  display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;
+  margin-top: 1.25rem;
+  font-size: clamp(0.95rem, 2vw, 1.2rem);
+  color: var(--sub); font-weight: 400;
 }
-.hero-role .sep { color: var(--border2); }
-.hero-bio {
-  font-size: 15px; color: var(--sub); margin-top: 14px;
-  max-width: 50ch; line-height: 1.75;
+.hero-loc {
+  margin-top: 0.35rem;
+  font-size: 0.88rem; color: var(--faint);
 }
 .hero-quote {
-  margin-top: 1.25rem; max-width: 50ch;
-  padding-left: 1rem; border-left: 2px solid var(--border2);
-  font-size: 14px; color: var(--faint);
-  line-height: 1.8; font-style: italic;
+  margin-top: 1.6rem; max-width: 48ch;
+  padding: 0.85rem 1.3rem;
+  border-left: 2px solid var(--border2);
+  border-radius: 0 10px 10px 0;
+  text-align: left;
+  font-size: 13.5px; color: var(--sub);
+  font-style: italic; line-height: 1.8;
+  background: var(--hover-bg);
 }
 .hero-links {
-  display: flex; gap: 1.5rem; flex-wrap: wrap;
-  margin-top: 1.4rem;
+  margin-top: 1.75rem;
+  display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center;
 }
 .hero-links a {
   font-size: 13px; font-weight: 500; color: var(--sub);
-  transition: color .15s;
+  padding: 0.38rem 1.1rem;
+  border: 1px solid var(--border);
+  border-radius: 999px; background: var(--surface);
+  transition: border-color .18s, color .18s, transform .18s;
 }
-.hero-links a:hover { color: var(--text); }
+.hero-links a:hover { border-color: var(--border2); color: var(--text); transform: translateY(-2px); }
+
+/* scroll cue */
+.scroll-cue {
+  position: absolute; bottom: 2.2rem; left: 50%; transform: translateX(-50%);
+  z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 4px;
+  color: var(--faint); font-size: 11px; letter-spacing: 0.08em;
+  animation: cue 2.6s ease-in-out infinite;
+}
+@keyframes cue {
+  0%,100% { transform: translateX(-50%) translateY(0); opacity:.6; }
+  50%      { transform: translateX(-50%) translateY(7px); opacity:1; }
+}
+
+/* ─── Content ─── */
+.page {
+  width: min(760px, 100% - 3rem);
+  margin: 0 auto;
+  padding: 5rem 0 7rem;
+}
 
 /* ─── Section ─── */
 .section { margin-bottom: 3.5rem; }
+.section + .section { border-top: 1px solid var(--border); padding-top: 3.5rem; }
 .sec-title {
   font-size: 11px; font-weight: 600;
   text-transform: uppercase; letter-spacing: 0.1em;
-  color: var(--faint); margin-bottom: 1.5rem;
+  color: var(--faint); margin-bottom: 1.6rem;
 }
 
 /* ─── Skills ─── */
 .skill-block { margin-bottom: 2rem; }
 .skill-block:last-child { margin-bottom: 0; }
-.skill-block-name {
-  font-size: 15px; font-weight: 600;
-  margin-bottom: 1rem; color: var(--text);
-}
-.skill-cat { margin-bottom: 1rem; }
+.skill-block-name { font-size: 15px; font-weight: 600; margin-bottom: 1rem; }
+.skill-cat { margin-bottom: 0.9rem; }
 .skill-cat:last-child { margin-bottom: 0; }
-.skill-cat-name {
-  font-size: 12px; color: var(--sub); font-weight: 500;
-  margin-bottom: 0.45rem;
-}
-.sub-label {
-  font-size: 11.5px; color: var(--faint); margin: 0.5rem 0 0.35rem;
-}
+.skill-cat-name { font-size: 12px; color: var(--sub); font-weight: 500; margin-bottom: 0.4rem; }
+.sub-label { font-size: 11.5px; color: var(--faint); margin: 0.5rem 0 0.35rem; }
 .chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
 .chip {
-  font-size: 13px; font-weight: 400;
-  color: var(--sub); border: 1px solid var(--border);
+  font-size: 13px; color: var(--sub);
+  border: 1px solid var(--border);
   border-radius: 8px; padding: 4px 12px;
   background: var(--surface);
   transition: border-color .15s, color .15s, background .15s;
@@ -190,24 +225,16 @@ img { display: block; max-width: 100%; }
   gap: 0.25rem 2rem;
   padding: 1.25rem 0;
   border-top: 1px solid var(--border);
-  transition: background .15s;
 }
 .exp-item:last-child { border-bottom: 1px solid var(--border); }
-.exp-company {
-  font-size: 16px; font-weight: 600;
-  display: flex; align-items: center; gap: 0.55rem;
-}
+.exp-company { font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 0.55rem; }
 .badge-working {
-  font-size: 11px; font-weight: 500;
-  color: var(--green); background: var(--green-bg);
-  border: 1px solid var(--green-bd);
+  font-size: 11px; font-weight: 500; color: var(--green);
+  background: var(--green-bg); border: 1px solid var(--green-bd);
   border-radius: 999px; padding: 2px 9px;
 }
 .exp-role { font-size: 14px; color: var(--sub); margin-top: 3px; }
-.exp-desc {
-  font-size: 13.5px; color: var(--sub);
-  margin-top: 8px; max-width: 46ch; line-height: 1.65;
-}
+.exp-desc { font-size: 13.5px; color: var(--sub); margin-top: 8px; max-width: 46ch; line-height: 1.65; }
 .exp-stack { font-size: 12px; color: var(--faint); margin-top: 5px; }
 .exp-meta { text-align: right; padding-top: 3px; }
 .exp-dates { font-size: 13px; color: var(--sub); white-space: nowrap; }
@@ -217,33 +244,24 @@ img { display: block; max-width: 100%; }
 .proj-item {
   padding: 1.25rem 1.4rem;
   border: 1px solid var(--border);
-  border-radius: 12px;
-  margin-bottom: 0.85rem;
+  border-radius: 12px; margin-bottom: 0.85rem;
   background: var(--surface);
   transition: border-color .2s, background .2s;
 }
 .proj-item:hover { border-color: var(--border2); background: var(--surface2); }
-.proj-header {
-  display: flex; align-items: center; gap: 0.65rem;
-  flex-wrap: wrap; margin-bottom: 0.4rem;
-}
+.proj-header { display: flex; align-items: center; gap: 0.65rem; flex-wrap: wrap; margin-bottom: 0.4rem; }
 .proj-name { font-size: 15px; font-weight: 600; }
 .proj-tag {
   font-size: 11px; font-weight: 500; color: var(--sub);
   border: 1px solid var(--border); border-radius: 5px; padding: 1px 8px;
 }
-.proj-tag.live {
-  color: var(--green); border-color: var(--green-bd); background: var(--green-bg);
-}
-.proj-tag.progress { color: #f59e0b; border-color: rgba(245,158,11,0.3); background: rgba(245,158,11,0.07); }
+.proj-tag.live { color: var(--green); border-color: var(--green-bd); background: var(--green-bg); }
+.proj-tag.progress { color: #f59e0b; border-color: rgba(245,158,11,.3); background: rgba(245,158,11,.07); }
 [data-theme="light"] .proj-tag.progress { color: #d97706; }
 .proj-desc { font-size: 13.5px; color: var(--sub); line-height: 1.65; max-width: 54ch; }
 .proj-stack { font-size: 12px; color: var(--faint); margin-top: 6px; }
 .proj-links { display: flex; gap: 1.25rem; margin-top: 10px; }
-.proj-links a {
-  font-size: 12.5px; color: var(--sub); font-weight: 500;
-  transition: color .15s;
-}
+.proj-links a { font-size: 12.5px; color: var(--sub); font-weight: 500; transition: color .15s; }
 .proj-links a:hover { color: var(--text); }
 .proj-links a::after { content: " →"; }
 
@@ -258,7 +276,7 @@ img { display: block; max-width: 100%; }
   font-size: 14px; color: var(--sub); line-height: 1.65;
 }
 .aim-item:last-child { border-bottom: 1px solid var(--border); }
-.aim-dash { color: var(--faint); flex-shrink: 0; font-size: 16px; }
+.aim-dash { color: var(--faint); flex-shrink: 0; }
 
 /* ─── Log ─── */
 .log-item { border-top: 1px solid var(--border); }
@@ -269,7 +287,7 @@ img { display: block; max-width: 100%; }
 }
 .log-item summary::-webkit-details-marker { display: none; }
 .log-date { font-size: 12px; color: var(--faint); white-space: nowrap; width: 7.5rem; flex-shrink: 0; }
-.log-title { font-size: 14px; font-weight: 500; color: var(--text); }
+.log-title { font-size: 14px; font-weight: 500; }
 .log-item summary:hover .log-title { color: var(--sub); }
 .log-body { padding: 0 0 1.1rem 9rem; font-size: 13.5px; color: var(--sub); line-height: 1.7; }
 .log-body p + p { margin-top: 0.55rem; }
@@ -292,8 +310,6 @@ img { display: block; max-width: 100%; }
 
 /* ─── Responsive ─── */
 @media (max-width: 600px) {
-  .hero { flex-direction: column; align-items: flex-start; gap: 1.25rem; }
-  .hero-name { font-size: 28px; }
   .exp-item { grid-template-columns: 1fr; }
   .exp-meta { text-align: left; }
 }
@@ -301,7 +317,7 @@ img { display: block; max-width: 100%; }
 </head>
 <body>
 
-<!-- Centered nav pill -->
+<!-- ── Centered nav pill ── -->
 <div class="nav-wrap">
   <nav class="nav-pill">
     <a href="#top">Home</a>
@@ -315,47 +331,49 @@ img { display: block; max-width: 100%; }
   </nav>
 </div>
 
-<div class="page" id="top">
+<!-- ════════════════════════════════
+     HERO — centered, full viewport
+     ════════════════════════════════ -->
+<section class="hero" id="top">
+  <canvas id="net" aria-hidden="true"></canvas>
+  <div class="hero-fog" aria-hidden="true"></div>
 
-  <!-- ── Hero ── -->
-  <div class="hero">
-    <div class="avatar" id="avatarWrap">
-      <!-- To show your photo: add photo.jpg to this folder, then swap the line below -->
-      <!-- <img src="photo.jpg" alt="Shikhar"> -->
-      <span class="avatar-ph">Add<br>photo</span>
-    </div>
-    <div class="hero-text">
-      <div class="hero-name">Shikhar</div>
-      <div class="hero-role">
-        AI Engineer
-        <span class="sep">·</span>
-        Building agents &amp; LLM systems
-        <span class="sep">·</span>
-        Jaunpur, UP
-      </div>
-      <p class="hero-bio">
-        Final-year CS (AI &amp; ML) student. Currently interning as an AI Engineer — working on voice agents and computer vision in production.
-      </p>
-      <blockquote class="hero-quote">
-        "I want to learn every concept related to AI, specially LLM Engineering. My journey is still longer — but I have taken a pledge to complete it."
-      </blockquote>
-      <div class="hero-links">
-        <a href="https://github.com/YOUR-USERNAME" target="_blank" rel="noopener">GitHub</a>
-        <a href="https://www.linkedin.com/in/YOUR-USERNAME" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="https://x.com/YOUR-USERNAME" target="_blank" rel="noopener">Twitter</a>
-        <a href="mailto:YOUR-EMAIL@example.com">Email</a>
-      </div>
+  <div class="hero-inner">
+    <h1 class="hero-name">Shikhar</h1>
+    <p class="hero-role">AI Engineer &nbsp;·&nbsp; Building agents &amp; LLM systems</p>
+    <p class="hero-loc">Jaunpur, Uttar Pradesh</p>
+
+    <blockquote class="hero-quote">
+      "I want to learn every concept related to AI — specially LLM Engineering.
+      My journey is still a little longer, but I have taken a pledge to complete it."
+    </blockquote>
+
+    <div class="hero-links">
+      <a href="https://github.com/YOUR-USERNAME" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/YOUR-USERNAME" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://x.com/YOUR-USERNAME" target="_blank" rel="noopener">Twitter</a>
+      <a href="mailto:YOUR-EMAIL@example.com">Email</a>
     </div>
   </div>
 
-  <!-- ── Skills ── -->
+  <div class="scroll-cue" aria-hidden="true">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+      <path d="M7 1v12M1 7l6 6 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span>Scroll</span>
+  </div>
+</section>
+
+
+<!-- ── Main content ── -->
+<div class="page">
+
+  <!-- Skills -->
   <div class="section" id="skills">
     <div class="sec-title">Skills</div>
 
-    <!-- AI Engineering -->
     <div class="skill-block">
       <div class="skill-block-name">AI Engineering</div>
-
       <div class="skill-cat">
         <div class="skill-cat-name">LLM Engineering</div>
         <div class="sub-label">Frontier models</div>
@@ -371,7 +389,6 @@ img { display: block; max-width: 100%; }
           <span class="chip">RunPod</span>
         </div>
       </div>
-
       <div class="skill-cat">
         <div class="skill-cat-name">Generative AI</div>
         <div class="chips">
@@ -384,7 +401,6 @@ img { display: block; max-width: 100%; }
           <span class="chip">Qdrant</span>
         </div>
       </div>
-
       <div class="skill-cat">
         <div class="skill-cat-name">Agentic AI</div>
         <div class="chips">
@@ -397,7 +413,6 @@ img { display: block; max-width: 100%; }
 
     <hr class="skill-divider">
 
-    <!-- Languages -->
     <div class="skill-block">
       <div class="skill-block-name">Languages</div>
       <div class="chips">
@@ -410,7 +425,6 @@ img { display: block; max-width: 100%; }
 
     <hr class="skill-divider">
 
-    <!-- Web Dev -->
     <div class="skill-block">
       <div class="skill-block-name">Web Development</div>
       <div class="skill-cat">
@@ -432,7 +446,6 @@ img { display: block; max-width: 100%; }
 
     <hr class="skill-divider">
 
-    <!-- Tools + Deployment side by side -->
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem;">
       <div class="skill-block" style="margin-bottom:0">
         <div class="skill-block-name">Tools</div>
@@ -450,19 +463,15 @@ img { display: block; max-width: 100%; }
         </div>
       </div>
     </div>
-
   </div>
 
-  <!-- ── Experience ── -->
+  <!-- Experience -->
   <div class="section" id="career">
     <div class="sec-title">Experience</div>
 
     <div class="exp-item">
       <div>
-        <div class="exp-company">
-          GIT Software Technologies
-          <span class="badge-working">Working</span>
-        </div>
+        <div class="exp-company">GIT Software Technologies <span class="badge-working">Working</span></div>
         <div class="exp-role">AI Engineer Intern</div>
         <div class="exp-desc">Building production AI systems — voice agents and computer vision pipelines.</div>
       </div>
@@ -495,17 +504,16 @@ img { display: block; max-width: 100%; }
         <div class="exp-dates">Earlier</div>
       </div>
     </div>
-
   </div>
 
-  <!-- ── Education ── -->
+  <!-- Education -->
   <div class="section">
     <div class="sec-title">Education</div>
     <div class="exp-item">
       <div>
         <div class="exp-company">Dr. Ambedkar Institute of Technology for Divyangjan</div>
         <div class="exp-role">B.Tech — Computer Science (AI &amp; ML)</div>
-        <div class="exp-desc">Final year.</div>
+        <div class="exp-desc">Final year student.</div>
       </div>
       <div class="exp-meta">
         <div class="exp-dates">Graduating May 2027</div>
@@ -513,7 +521,7 @@ img { display: block; max-width: 100%; }
     </div>
   </div>
 
-  <!-- ── Projects ── -->
+  <!-- Projects -->
   <div class="section" id="projects">
     <div class="sec-title">Projects</div>
 
@@ -524,9 +532,7 @@ img { display: block; max-width: 100%; }
       </div>
       <div class="proj-desc">A self-healing AI agent built on NestJS that detects and recovers from failures autonomously.</div>
       <div class="proj-stack">NestJS · AI agents</div>
-      <div class="proj-links">
-        <a href="https://github.com/YOUR-USERNAME/nexus" target="_blank" rel="noopener">Code</a>
-      </div>
+      <div class="proj-links"><a href="https://github.com/YOUR-USERNAME/nexus" target="_blank" rel="noopener">Code</a></div>
     </div>
 
     <div class="proj-item">
@@ -536,31 +542,21 @@ img { display: block; max-width: 100%; }
       </div>
       <div class="proj-desc">Multi-agent research assistant that searches the web and streams progress live to a frontend.</div>
       <div class="proj-stack">LangGraph · FastAPI · Gemini · Tavily · SSE streaming</div>
-      <div class="proj-links">
-        <a href="https://github.com/YOUR-USERNAME/theresearcher" target="_blank" rel="noopener">Code</a>
-      </div>
+      <div class="proj-links"><a href="https://github.com/YOUR-USERNAME/theresearcher" target="_blank" rel="noopener">Code</a></div>
     </div>
 
     <div class="proj-item">
-      <div class="proj-header">
-        <span class="proj-name">DocuMind</span>
-      </div>
-      <div class="proj-desc">Upload any PDF and ask questions — answers come from the document via retrieval-augmented generation.</div>
+      <div class="proj-header"><span class="proj-name">DocuMind</span></div>
+      <div class="proj-desc">Upload any PDF and ask questions — answers via retrieval-augmented generation.</div>
       <div class="proj-stack">Python · FastAPI · LangChain · ChromaDB · Gemini</div>
-      <div class="proj-links">
-        <a href="https://github.com/YOUR-USERNAME/documind" target="_blank" rel="noopener">Code</a>
-      </div>
+      <div class="proj-links"><a href="https://github.com/YOUR-USERNAME/documind" target="_blank" rel="noopener">Code</a></div>
     </div>
 
     <div class="proj-item">
-      <div class="proj-header">
-        <span class="proj-name">JobPilot</span>
-      </div>
+      <div class="proj-header"><span class="proj-name">JobPilot</span></div>
       <div class="proj-desc">Full-stack AI job-hunting assistant — finds jobs, tailors applications, and tracks progress.</div>
       <div class="proj-stack">Next.js · Gemini · Browserbase · Stagehand · JSearch API</div>
-      <div class="proj-links">
-        <a href="https://github.com/YOUR-USERNAME/jobpilot" target="_blank" rel="noopener">Code</a>
-      </div>
+      <div class="proj-links"><a href="https://github.com/YOUR-USERNAME/jobpilot" target="_blank" rel="noopener">Code</a></div>
     </div>
 
     <div class="proj-item">
@@ -568,11 +564,9 @@ img { display: block; max-width: 100%; }
         <span class="proj-name">Shopkeeper App</span>
         <span class="proj-tag progress">In progress</span>
       </div>
-      <div class="proj-desc">Mobile app for small shops — calendar sales entry, expense tracking, profit reports, admin panel.</div>
+      <div class="proj-desc">Mobile app for small shops — sales calendar, expense tracking, profit reports, admin panel.</div>
       <div class="proj-stack">React Native</div>
-      <div class="proj-links">
-        <a href="https://github.com/YOUR-USERNAME/shopkeeper-app" target="_blank" rel="noopener">Code</a>
-      </div>
+      <div class="proj-links"><a href="https://github.com/YOUR-USERNAME/shopkeeper-app" target="_blank" rel="noopener">Code</a></div>
     </div>
 
     <div class="proj-item">
@@ -580,17 +574,16 @@ img { display: block; max-width: 100%; }
         <span class="proj-name">Insurance Premium Predictor</span>
         <span class="proj-tag live">Deployed</span>
       </div>
-      <div class="proj-desc">ML model that predicts insurance premiums, served through a REST API with a web interface.</div>
+      <div class="proj-desc">ML model that predicts insurance premiums via a REST API with a web interface.</div>
       <div class="proj-stack">FastAPI · scikit-learn · React · Vite · Render · Netlify</div>
       <div class="proj-links">
         <a href="https://github.com/YOUR-USERNAME/insurance-premium-predictor" target="_blank" rel="noopener">Code</a>
         <a href="https://YOUR-SITE.netlify.app" target="_blank" rel="noopener">Live</a>
       </div>
     </div>
-
   </div>
 
-  <!-- ── Aim ── -->
+  <!-- Aim -->
   <div class="section" id="aim">
     <div class="sec-title">Aim</div>
     <p class="aim-lead">To build agentic AI and LLM systems that hold up in production.</p>
@@ -601,7 +594,7 @@ img { display: block; max-width: 100%; }
     </div>
   </div>
 
-  <!-- ── Daily log ── -->
+  <!-- Daily log -->
   <div class="section" id="log">
     <div class="sec-title">Daily log</div>
     <div id="log-list"></div>
@@ -617,16 +610,14 @@ img { display: block; max-width: 100%; }
     </div>
   </div>
 
-</div>
+</div><!-- /page -->
 
 
-<!-- ═══════════════════════════════════════════════════════════
+<!-- ═══════════════════════════════════════════════
      DAILY LOG — only edit here
-
-     Copy a { } block, change date / title / body.
      Date format: YYYY-MM-DD
      Separate paragraphs in "body" with \n\n
-     ═══════════════════════════════════════════════════════════ -->
+     ═══════════════════════════════════════════════ -->
 <script>
 const posts = [
   {
@@ -649,28 +640,119 @@ const root = document.documentElement;
 function setTheme(t) {
   root.setAttribute("data-theme", t);
   btn.textContent = t === "dark" ? "Light" : "Dark";
-  try { localStorage.setItem("theme", t); } catch(e){}
+  try { localStorage.setItem("theme", t); } catch(e) {}
 }
-btn.addEventListener("click", () => setTheme(root.getAttribute("data-theme") === "dark" ? "light" : "dark"));
-try { const s = localStorage.getItem("theme"); if(s) setTheme(s); } catch(e){}
+btn.addEventListener("click", () =>
+  setTheme(root.getAttribute("data-theme") === "dark" ? "light" : "dark")
+);
+try { const s = localStorage.getItem("theme"); if (s) setTheme(s); } catch(e) {}
 
 /* ── Daily log ── */
-(function(){
+(function () {
   const el = document.getElementById("log-list");
-  const sorted = [...posts].sort((a,b) => a.date < b.date ? 1 : -1);
-  if(!sorted.length){
-    el.innerHTML='<p style="font-size:14px;color:var(--sub)">No entries yet.</p>';
+  const sorted = [...posts].sort((a, b) => (a.date < b.date ? 1 : -1));
+  if (!sorted.length) {
+    el.innerHTML = '<p style="font-size:14px;color:var(--sub)">No entries yet.</p>';
     return;
   }
   sorted.forEach((p, i) => {
     const det = document.createElement("details");
     det.className = "log-item";
-    if(i===0) det.open = true;
-    const d = new Date(p.date+"T00:00:00").toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"});
-    const body = String(p.body).split("\n\n").map(t=>`<p>${t}</p>`).join("");
+    if (i === 0) det.open = true;
+    const d = new Date(p.date + "T00:00:00").toLocaleDateString("en-IN", {
+      day: "numeric", month: "short", year: "numeric"
+    });
+    const body = String(p.body).split("\n\n").map(t => `<p>${t}</p>`).join("");
     det.innerHTML = `<summary><span class="log-date">${d}</span><span class="log-title">${p.title}</span></summary><div class="log-body">${body}</div>`;
     el.appendChild(det);
   });
+})();
+
+/* ── Hero canvas: animated particle network ── */
+(function () {
+  const hero   = document.getElementById("top");
+  const canvas = document.getElementById("net");
+  const ctx    = canvas.getContext("2d");
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const LINK = 140, REACH = 180;
+  let w = 0, h = 0, nodes = [], raf = 0, running = false;
+  const mouse = { x: -9999, y: -9999 };
+
+  function pal() {
+    const dk = root.getAttribute("data-theme") === "dark";
+    return {
+      node:  dk ? "rgba(180,180,190,0.6)"  : "rgba(60,60,70,0.5)",
+      nodeH: dk ? "rgba(230,230,240,0.95)" : "rgba(20,20,30,0.85)",
+      line:  dk ? "rgba(180,180,190,"      : "rgba(60,60,70,",
+      lineH: dk ? "rgba(230,230,240,"      : "rgba(20,20,30,"
+    };
+  }
+
+  function resize() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = hero.clientWidth; h = hero.clientHeight;
+    canvas.width  = w * dpr; canvas.height = h * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const n = Math.max(40, Math.min(110, Math.round((w * h) / 14000)));
+    nodes = Array.from({ length: n }, () => ({
+      x: Math.random() * w, y: Math.random() * h,
+      vx: (Math.random() - .5) * .4, vy: (Math.random() - .5) * .4
+    }));
+    draw();
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+    const c = pal();
+    for (let i = 0; i < nodes.length; i++) {
+      const a = nodes[i];
+      for (let j = i + 1; j < nodes.length; j++) {
+        const b = nodes[j];
+        const dist = Math.hypot(a.x - b.x, a.y - b.y);
+        if (dist > LINK) continue;
+        const mx = (a.x + b.x) / 2 - mouse.x, my = (a.y + b.y) / 2 - mouse.y;
+        const near = Math.max(0, 1 - Math.hypot(mx, my) / REACH);
+        const base = (1 - dist / LINK) * 0.28;
+        ctx.lineWidth   = near > 0 ? 1.4 : 0.8;
+        ctx.strokeStyle = near > 0
+          ? `${c.lineH}${Math.min(.85, base + near * .6)})`
+          : `${c.line}${base})`;
+        ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+      }
+    }
+    for (const n of nodes) {
+      const near = Math.max(0, 1 - Math.hypot(n.x - mouse.x, n.y - mouse.y) / REACH);
+      ctx.fillStyle = near > 0 ? c.nodeH : c.node;
+      ctx.beginPath(); ctx.arc(n.x, n.y, 1.8 + near * 2.6, 0, Math.PI * 2); ctx.fill();
+    }
+  }
+
+  function step() {
+    nodes.forEach(n => {
+      n.x += n.vx; n.y += n.vy;
+      if (n.x < 0 || n.x > w) n.vx *= -1;
+      if (n.y < 0 || n.y > h) n.vy *= -1;
+    });
+    draw(); raf = requestAnimationFrame(step);
+  }
+
+  function start() { if (!running && !reduce) { running = true; raf = requestAnimationFrame(step); } }
+  function stop()  { running = false; cancelAnimationFrame(raf); }
+
+  hero.addEventListener("pointermove", e => {
+    const r = hero.getBoundingClientRect();
+    mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top;
+    if (reduce) draw();
+  });
+  hero.addEventListener("pointerleave", () => { mouse.x = mouse.y = -9999; if (reduce) draw(); });
+
+  new MutationObserver(() => { if (!running) draw(); })
+    .observe(root, { attributes: true, attributeFilter: ["data-theme"] });
+
+  new IntersectionObserver(([e]) => e.isIntersecting ? start() : stop()).observe(hero);
+  window.addEventListener("resize", resize);
+  resize(); start();
 })();
 </script>
 
