@@ -1,4 +1,4 @@
-# Shikhar's Resume
+# Shikhar's Portfolio
 
 Welcome to my personal resume and portfolio website!
 
