@@ -7,32 +7,39 @@
 <meta name="description" content="Shikhar — AI engineer building agents and LLM systems.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 /* ─── Themes ─── */
-:root {
-  --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-}
 [data-theme="dark"] {
-  --bg:      #0c0c0c;
-  --surface: #141414;
-  --border:  #222222;
-  --text:    #e2e2e2;
-  --sub:     #777777;
-  --faint:   #444444;
-  --accent:  #e2e2e2;
-  --green:   #22c55e;
+  --bg:        #0e0e0e;
+  --surface:   #161616;
+  --surface2:  #1c1c1c;
+  --border:    #2a2a2a;
+  --border2:   #333333;
+  --text:      #ebebeb;
+  --sub:       #888888;
+  --faint:     #555555;
+  --accent:    #ffffff;
+  --green:     #4ade80;
+  --green-bg:  rgba(74,222,128,0.08);
+  --green-bd:  rgba(74,222,128,0.25);
+  --hover-bg:  rgba(255,255,255,0.04);
 }
 [data-theme="light"] {
-  --bg:      #fafafa;
-  --surface: #ffffff;
-  --border:  #e5e5e5;
-  --text:    #111111;
-  --sub:     #666666;
-  --faint:   #cccccc;
-  --accent:  #111111;
-  --green:   #16a34a;
+  --bg:        #f5f5f5;
+  --surface:   #ffffff;
+  --surface2:  #f0f0f0;
+  --border:    #e0e0e0;
+  --border2:   #d0d0d0;
+  --text:      #111111;
+  --sub:       #666666;
+  --faint:     #aaaaaa;
+  --accent:    #111111;
+  --green:     #16a34a;
+  --green-bg:  rgba(22,163,74,0.07);
+  --green-bd:  rgba(22,163,74,0.25);
+  --hover-bg:  rgba(0,0,0,0.03);
 }
 
 /* ─── Reset ─── */
@@ -43,351 +50,357 @@ html { -webkit-text-size-adjust: 100%; }
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: var(--font);
-  font-size: 14px;
-  line-height: 1.65;
-  transition: background .25s, color .25s;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
   -webkit-font-smoothing: antialiased;
+  transition: background .3s, color .3s;
 }
 a { color: inherit; text-decoration: none; }
-a:hover { color: var(--sub); }
 img { display: block; max-width: 100%; }
 
-/* ─── Layout ─── */
-.page {
-  width: min(680px, 100% - 3rem);
-  margin: 0 auto;
-  padding: 3.5rem 0 6rem;
+/* ─── Top nav — CENTERED ─── */
+.nav-wrap {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; justify-content: center; align-items: center;
+  padding: 0.85rem 1.5rem;
+  pointer-events: none;
 }
-
-/* ─── Top bar ─── */
-.topbar {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
-  background: var(--bg);
-  border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 2rem; height: 48px;
-  font-size: 13px; color: var(--sub);
-}
-.topbar nav { display: flex; gap: 1.75rem; }
-.topbar nav a { transition: color .15s; }
-.topbar nav a:hover { color: var(--text); }
-.topbar-right { display: flex; align-items: center; gap: 1rem; }
-.theme-btn {
-  background: none; border: 1px solid var(--border);
-  border-radius: 6px; padding: 3px 10px;
-  cursor: pointer; font-size: 12px; font-family: var(--font);
-  color: var(--sub); transition: border-color .15s, color .15s;
-}
-.theme-btn:hover { border-color: var(--faint); color: var(--text); }
-
-/* ─── Profile header ─── */
-.profile { display: flex; align-items: flex-start; gap: 1.25rem; margin-bottom: 1.5rem; }
-.avatar {
-  width: 72px; height: 72px; border-radius: 50%;
-  border: 2px solid var(--border);
+.nav-pill {
+  pointer-events: auto;
+  display: flex; align-items: center; gap: 0.25rem;
   background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.35rem 0.5rem;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.18);
+  backdrop-filter: blur(12px);
+}
+.nav-pill a {
+  font-size: 13px; color: var(--sub); font-weight: 500;
+  padding: 0.3rem 0.9rem; border-radius: 999px;
+  transition: background .15s, color .15s;
+}
+.nav-pill a:hover { background: var(--hover-bg); color: var(--text); }
+.nav-sep { width: 1px; height: 16px; background: var(--border); margin: 0 0.1rem; }
+.nav-theme {
+  font-size: 12px; color: var(--sub);
+  padding: 0.3rem 0.85rem; border-radius: 999px;
+  cursor: pointer; background: none; border: none;
+  font-family: inherit; font-weight: 500;
+  transition: background .15s, color .15s;
+}
+.nav-theme:hover { background: var(--hover-bg); color: var(--text); }
+
+/* ─── Page ─── */
+.page {
+  width: min(760px, 100% - 3rem);
+  margin: 0 auto;
+  padding: 6.5rem 0 7rem;
+}
+
+/* ─── Hero ─── */
+.hero {
+  display: flex; align-items: center; gap: 2rem;
+  padding: 0 0 3rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 3.5rem;
+}
+.avatar {
+  width: 96px; height: 96px; border-radius: 50%;
+  border: 2px solid var(--border2);
+  background: var(--surface2);
   overflow: hidden; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
-  color: var(--faint); font-size: 11px; text-align: center;
 }
 .avatar img { width: 100%; height: 100%; object-fit: cover; }
-.avatar-placeholder { font-size: 10px; color: var(--faint); line-height: 1.4; }
-.profile-info { padding-top: 4px; }
-.profile-name { font-size: 22px; font-weight: 600; letter-spacing: -0.3px; line-height: 1.2; }
-.profile-role { color: var(--sub); font-size: 13px; margin-top: 4px; }
-.profile-role span { color: var(--faint); margin: 0 4px; }
-
-/* ─── Bio ─── */
-.bio { font-size: 14px; color: var(--text); margin-bottom: 1.25rem; line-height: 1.7; max-width: 56ch; }
-
-/* ─── Quote ─── */
-.quote {
-  border-left: 2px solid var(--border);
-  padding: 0.5rem 0 0.5rem 1rem;
-  color: var(--sub);
-  font-size: 13px;
-  line-height: 1.75;
-  margin-bottom: 2rem;
-  font-style: italic;
-  max-width: 54ch;
+.avatar-ph {
+  font-size: 11px; color: var(--faint);
+  text-align: center; line-height: 1.5;
 }
-
-/* ─── Social links ─── */
-.socials { display: flex; gap: 1.25rem; margin-bottom: 2.5rem; flex-wrap: wrap; }
-.socials a {
-  font-size: 13px; color: var(--sub);
+.hero-text {}
+.hero-name {
+  font-size: 36px; font-weight: 700;
+  letter-spacing: -0.6px; line-height: 1.15;
+}
+.hero-role {
+  font-size: 15px; color: var(--sub); margin-top: 6px;
+  display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;
+}
+.hero-role .sep { color: var(--border2); }
+.hero-bio {
+  font-size: 15px; color: var(--sub); margin-top: 14px;
+  max-width: 50ch; line-height: 1.75;
+}
+.hero-quote {
+  margin-top: 1.25rem; max-width: 50ch;
+  padding-left: 1rem; border-left: 2px solid var(--border2);
+  font-size: 14px; color: var(--faint);
+  line-height: 1.8; font-style: italic;
+}
+.hero-links {
+  display: flex; gap: 1.5rem; flex-wrap: wrap;
+  margin-top: 1.4rem;
+}
+.hero-links a {
+  font-size: 13px; font-weight: 500; color: var(--sub);
   transition: color .15s;
 }
-.socials a:hover { color: var(--text); }
-
-/* ─── Divider ─── */
-hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+.hero-links a:hover { color: var(--text); }
 
 /* ─── Section ─── */
-.section { margin-bottom: 2.75rem; }
-.section-title {
-  font-size: 15px; font-weight: 600;
-  margin-bottom: 1.25rem; letter-spacing: -0.1px;
+.section { margin-bottom: 3.5rem; }
+.sec-title {
+  font-size: 11px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--faint); margin-bottom: 1.5rem;
 }
 
 /* ─── Skills ─── */
-.skill-group { margin-bottom: 1.5rem; }
-.skill-group:last-child { margin-bottom: 0; }
-.skill-domain-name {
-  font-size: 12px; font-weight: 500; color: var(--sub);
-  text-transform: uppercase; letter-spacing: 0.07em;
-  margin-bottom: 0.75rem;
+.skill-block { margin-bottom: 2rem; }
+.skill-block:last-child { margin-bottom: 0; }
+.skill-block-name {
+  font-size: 15px; font-weight: 600;
+  margin-bottom: 1rem; color: var(--text);
 }
-.skill-tree { display: flex; flex-direction: column; gap: 0.6rem; }
-.skill-row { display: flex; align-items: flex-start; gap: 0; }
-.skill-branch {
-  display: flex; flex-direction: column; align-items: center;
-  margin-right: 0.65rem; padding-top: 6px; flex-shrink: 0;
+.skill-cat { margin-bottom: 1rem; }
+.skill-cat:last-child { margin-bottom: 0; }
+.skill-cat-name {
+  font-size: 12px; color: var(--sub); font-weight: 500;
+  margin-bottom: 0.45rem;
 }
-.skill-branch .vline {
-  width: 1px; background: var(--border); flex: 1; min-height: 14px;
+.sub-label {
+  font-size: 11.5px; color: var(--faint); margin: 0.5rem 0 0.35rem;
 }
-.skill-branch .hline-wrap {
-  display: flex; align-items: center; gap: 0;
-  height: 1px; width: 10px;
-  background: var(--border);
-}
-.skill-label {
-  font-size: 13px; font-weight: 500; color: var(--text);
-  margin-bottom: 0.3rem; padding-top: 1px;
-}
-.skill-sub-label {
-  font-size: 11.5px; color: var(--sub);
-  margin-bottom: 0.4rem;
-  font-weight: 400;
-}
-.skill-chips { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
 .chip {
-  font-size: 12px; color: var(--sub);
-  border: 1px solid var(--border);
-  border-radius: 5px;
-  padding: 2px 9px;
+  font-size: 13px; font-weight: 400;
+  color: var(--sub); border: 1px solid var(--border);
+  border-radius: 8px; padding: 4px 12px;
   background: var(--surface);
-  transition: border-color .15s, color .15s;
+  transition: border-color .15s, color .15s, background .15s;
   cursor: default;
 }
-.chip:hover { border-color: var(--faint); color: var(--text); }
-.skill-content { flex: 1; }
-.skill-section { margin-bottom: 1rem; }
-.skill-section:last-child { margin-bottom: 0; }
+.chip:hover { border-color: var(--border2); color: var(--text); background: var(--surface2); }
+.skill-divider { border: none; border-top: 1px solid var(--border); margin: 1.75rem 0; }
 
-/* ─── Experience / Timeline ─── */
-.exp-list { display: flex; flex-direction: column; gap: 0; }
+/* ─── Experience ─── */
 .exp-item {
   display: grid; grid-template-columns: 1fr auto;
-  gap: 0 1.5rem; padding: 1rem 0;
+  gap: 0.25rem 2rem;
+  padding: 1.25rem 0;
   border-top: 1px solid var(--border);
+  transition: background .15s;
 }
 .exp-item:last-child { border-bottom: 1px solid var(--border); }
-.exp-company { font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 0.5rem; }
-.exp-role { font-size: 13px; color: var(--sub); margin-top: 2px; }
-.exp-desc { font-size: 13px; color: var(--sub); margin-top: 6px; max-width: 44ch; line-height: 1.6; }
-.exp-meta { text-align: right; }
-.exp-dates { font-size: 12px; color: var(--sub); white-space: nowrap; }
-.exp-location { font-size: 12px; color: var(--faint); margin-top: 2px; }
-.dot-live {
-  width: 7px; height: 7px; border-radius: 50%;
-  background: var(--green); flex-shrink: 0;
-  box-shadow: 0 0 6px var(--green);
+.exp-company {
+  font-size: 16px; font-weight: 600;
+  display: flex; align-items: center; gap: 0.55rem;
 }
 .badge-working {
-  font-size: 11px; color: var(--green);
-  border: 1px solid rgba(34,197,94,0.3);
-  border-radius: 4px; padding: 1px 7px;
-  background: rgba(34,197,94,0.08);
+  font-size: 11px; font-weight: 500;
+  color: var(--green); background: var(--green-bg);
+  border: 1px solid var(--green-bd);
+  border-radius: 999px; padding: 2px 9px;
 }
-[data-theme="light"] .badge-working {
-  color: var(--green);
-  border-color: rgba(22,163,74,0.3);
-  background: rgba(22,163,74,0.07);
+.exp-role { font-size: 14px; color: var(--sub); margin-top: 3px; }
+.exp-desc {
+  font-size: 13.5px; color: var(--sub);
+  margin-top: 8px; max-width: 46ch; line-height: 1.65;
 }
+.exp-stack { font-size: 12px; color: var(--faint); margin-top: 5px; }
+.exp-meta { text-align: right; padding-top: 3px; }
+.exp-dates { font-size: 13px; color: var(--sub); white-space: nowrap; }
+.exp-loc { font-size: 12px; color: var(--faint); margin-top: 2px; }
 
 /* ─── Projects ─── */
-.proj-list { display: flex; flex-direction: column; }
 .proj-item {
-  padding: 1rem 0;
-  border-top: 1px solid var(--border);
-}
-.proj-item:last-child { border-bottom: 1px solid var(--border); }
-.proj-header { display: flex; align-items: baseline; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 4px; }
-.proj-name { font-size: 14px; font-weight: 600; }
-.proj-tag {
-  font-size: 11px; color: var(--sub);
+  padding: 1.25rem 1.4rem;
   border: 1px solid var(--border);
-  border-radius: 4px; padding: 1px 7px;
+  border-radius: 12px;
+  margin-bottom: 0.85rem;
+  background: var(--surface);
+  transition: border-color .2s, background .2s;
 }
-.proj-tag.live { color: var(--green); border-color: rgba(34,197,94,0.3); background: rgba(34,197,94,0.07); }
-.proj-desc { font-size: 13px; color: var(--sub); line-height: 1.6; max-width: 52ch; }
-.proj-stack { font-size: 12px; color: var(--faint); margin-top: 5px; }
-.proj-links { display: flex; gap: 1rem; margin-top: 8px; }
-.proj-links a { font-size: 12px; color: var(--sub); transition: color .15s; }
+.proj-item:hover { border-color: var(--border2); background: var(--surface2); }
+.proj-header {
+  display: flex; align-items: center; gap: 0.65rem;
+  flex-wrap: wrap; margin-bottom: 0.4rem;
+}
+.proj-name { font-size: 15px; font-weight: 600; }
+.proj-tag {
+  font-size: 11px; font-weight: 500; color: var(--sub);
+  border: 1px solid var(--border); border-radius: 5px; padding: 1px 8px;
+}
+.proj-tag.live {
+  color: var(--green); border-color: var(--green-bd); background: var(--green-bg);
+}
+.proj-tag.progress { color: #f59e0b; border-color: rgba(245,158,11,0.3); background: rgba(245,158,11,0.07); }
+[data-theme="light"] .proj-tag.progress { color: #d97706; }
+.proj-desc { font-size: 13.5px; color: var(--sub); line-height: 1.65; max-width: 54ch; }
+.proj-stack { font-size: 12px; color: var(--faint); margin-top: 6px; }
+.proj-links { display: flex; gap: 1.25rem; margin-top: 10px; }
+.proj-links a {
+  font-size: 12.5px; color: var(--sub); font-weight: 500;
+  transition: color .15s;
+}
 .proj-links a:hover { color: var(--text); }
 .proj-links a::after { content: " →"; }
 
-/* ─── Daily log ─── */
-.log-list { display: flex; flex-direction: column; }
+/* ─── Aim ─── */
+.aim-lead {
+  font-size: 20px; font-weight: 600; letter-spacing: -0.25px;
+  line-height: 1.45; max-width: 38ch; margin-bottom: 1.5rem;
+}
+.aim-item {
+  display: flex; align-items: flex-start; gap: 0.85rem;
+  padding: 0.7rem 0; border-top: 1px solid var(--border);
+  font-size: 14px; color: var(--sub); line-height: 1.65;
+}
+.aim-item:last-child { border-bottom: 1px solid var(--border); }
+.aim-dash { color: var(--faint); flex-shrink: 0; font-size: 16px; }
+
+/* ─── Log ─── */
 .log-item { border-top: 1px solid var(--border); }
 .log-item:last-child { border-bottom: 1px solid var(--border); }
-.log-item details {}
 .log-item summary {
-  display: flex; align-items: baseline; gap: 1rem;
-  padding: 0.85rem 0; cursor: pointer; list-style: none;
-  font-size: 13px;
+  display: flex; align-items: baseline; gap: 1.5rem;
+  padding: 0.9rem 0; cursor: pointer; list-style: none;
 }
 .log-item summary::-webkit-details-marker { display: none; }
-.log-date { color: var(--faint); font-size: 12px; white-space: nowrap; width: 7rem; flex-shrink: 0; }
-.log-title { color: var(--text); font-weight: 500; }
+.log-date { font-size: 12px; color: var(--faint); white-space: nowrap; width: 7.5rem; flex-shrink: 0; }
+.log-title { font-size: 14px; font-weight: 500; color: var(--text); }
 .log-item summary:hover .log-title { color: var(--sub); }
-.log-body { padding: 0 0 1rem 8rem; font-size: 13px; color: var(--sub); line-height: 1.7; }
-.log-body p + p { margin-top: 0.6rem; }
-@media (max-width: 500px) { .log-body { padding-left: 0; } }
+.log-body { padding: 0 0 1.1rem 9rem; font-size: 13.5px; color: var(--sub); line-height: 1.7; }
+.log-body p + p { margin-top: 0.55rem; }
+@media (max-width: 520px) {
+  .log-body { padding-left: 0; }
+  .log-item summary { flex-direction: column; gap: 0.1rem; }
+}
 
 /* ─── Footer ─── */
-.footer { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border); }
-.footer-inner {
+.footer {
+  margin-top: 4rem; padding-top: 2rem;
+  border-top: 1px solid var(--border);
   display: flex; justify-content: space-between; align-items: center;
   flex-wrap: wrap; gap: 0.75rem;
-  font-size: 12px; color: var(--faint);
+  font-size: 13px; color: var(--faint);
 }
-.footer-links { display: flex; gap: 1.25rem; }
+.footer-links { display: flex; gap: 1.5rem; }
 .footer-links a { transition: color .15s; }
 .footer-links a:hover { color: var(--text); }
 
-/* ─── Aim ─── */
-.aim-items { display: flex; flex-direction: column; gap: 0; }
-.aim-item {
-  display: flex; align-items: flex-start; gap: 0.75rem;
-  padding: 0.6rem 0; border-top: 1px solid var(--border);
-  font-size: 13px; color: var(--sub); line-height: 1.65;
-}
-.aim-item:last-child { border-bottom: 1px solid var(--border); }
-.aim-arrow { color: var(--faint); flex-shrink: 0; }
-
 /* ─── Responsive ─── */
-@media (max-width: 540px) {
-  .page { padding-top: 4rem; }
+@media (max-width: 600px) {
+  .hero { flex-direction: column; align-items: flex-start; gap: 1.25rem; }
+  .hero-name { font-size: 28px; }
   .exp-item { grid-template-columns: 1fr; }
   .exp-meta { text-align: left; }
-  .profile { flex-direction: column; }
 }
 </style>
 </head>
 <body>
 
-<!-- Top bar -->
-<header class="topbar">
-  <nav>
+<!-- Centered nav pill -->
+<div class="nav-wrap">
+  <nav class="nav-pill">
     <a href="#top">Home</a>
+    <a href="#skills">Skills</a>
     <a href="#projects">Projects</a>
+    <a href="#career">Career</a>
     <a href="#aim">Aim</a>
     <a href="#log">Log</a>
+    <div class="nav-sep"></div>
+    <button class="nav-theme" id="themeBtn">Light</button>
   </nav>
-  <div class="topbar-right">
-    <button class="theme-btn" id="themeBtn">Light</button>
-  </div>
-</header>
+</div>
 
 <div class="page" id="top">
 
-  <!-- Profile -->
-  <div class="profile">
+  <!-- ── Hero ── -->
+  <div class="hero">
     <div class="avatar" id="avatarWrap">
-      <!-- Replace src with your photo path, e.g. src="photo.jpg" -->
+      <!-- To show your photo: add photo.jpg to this folder, then swap the line below -->
       <!-- <img src="photo.jpg" alt="Shikhar"> -->
-      <span class="avatar-placeholder">Add<br>photo</span>
+      <span class="avatar-ph">Add<br>photo</span>
     </div>
-    <div class="profile-info">
-      <div class="profile-name">Shikhar</div>
-      <div class="profile-role">
+    <div class="hero-text">
+      <div class="hero-name">Shikhar</div>
+      <div class="hero-role">
         AI Engineer
-        <span>·</span>
+        <span class="sep">·</span>
+        Building agents &amp; LLM systems
+        <span class="sep">·</span>
         Jaunpur, UP
-        <span>·</span>
-        <a href="mailto:YOUR-EMAIL@example.com">hi@shikhar.dev</a>
+      </div>
+      <p class="hero-bio">
+        Final-year CS (AI &amp; ML) student. Currently interning as an AI Engineer — working on voice agents and computer vision in production.
+      </p>
+      <blockquote class="hero-quote">
+        "I want to learn every concept related to AI, specially LLM Engineering. My journey is still longer — but I have taken a pledge to complete it."
+      </blockquote>
+      <div class="hero-links">
+        <a href="https://github.com/YOUR-USERNAME" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.linkedin.com/in/YOUR-USERNAME" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://x.com/YOUR-USERNAME" target="_blank" rel="noopener">Twitter</a>
+        <a href="mailto:YOUR-EMAIL@example.com">Email</a>
       </div>
     </div>
   </div>
 
-  <!-- Bio -->
-  <p class="bio">Building agents and LLM systems. Final year CS (AI &amp; ML) student, currently interning as an AI Engineer.</p>
-
-  <!-- Quote -->
-  <blockquote class="quote">
-    "I am looking forward to being an AI Engineer. I want to learn all concepts related to AI — specially LLM Engineering. My journey is still a little longer, but I have taken a pledge to complete it."
-  </blockquote>
-
-  <!-- Socials -->
-  <div class="socials">
-    <a href="https://github.com/YOUR-USERNAME" target="_blank" rel="noopener">GitHub</a>
-    <a href="https://www.linkedin.com/in/YOUR-USERNAME" target="_blank" rel="noopener">LinkedIn</a>
-    <a href="https://x.com/YOUR-USERNAME" target="_blank" rel="noopener">X / Twitter</a>
-    <a href="mailto:YOUR-EMAIL@example.com">Email</a>
-  </div>
-
-  <hr>
-
-  <!-- Skills -->
+  <!-- ── Skills ── -->
   <div class="section" id="skills">
-    <div class="section-title">Skills</div>
+    <div class="sec-title">Skills</div>
 
-    <!-- 01 AI Engineering -->
-    <div class="skill-group">
-      <div class="skill-domain-name">AI Engineering</div>
-      <div class="skill-tree">
+    <!-- AI Engineering -->
+    <div class="skill-block">
+      <div class="skill-block-name">AI Engineering</div>
 
-        <div class="skill-section">
-          <div class="skill-label">LLM Engineering</div>
-          <div class="skill-sub-label">Frontier models</div>
-          <div class="skill-chips">
-            <span class="chip">Claude</span>
-            <span class="chip">GPT</span>
-            <span class="chip">Gemini</span>
-          </div>
-          <div class="skill-sub-label" style="margin-top:.55rem">Local / open models</div>
-          <div class="skill-chips">
-            <span class="chip">Hugging Face</span>
-            <span class="chip">Ollama</span>
-            <span class="chip">RunPod</span>
-          </div>
+      <div class="skill-cat">
+        <div class="skill-cat-name">LLM Engineering</div>
+        <div class="sub-label">Frontier models</div>
+        <div class="chips">
+          <span class="chip">Claude</span>
+          <span class="chip">GPT</span>
+          <span class="chip">Gemini</span>
         </div>
-
-        <div class="skill-section">
-          <div class="skill-label">Generative AI</div>
-          <div class="skill-chips">
-            <span class="chip">LangChain</span>
-            <span class="chip">LlamaIndex</span>
-          </div>
-          <div class="skill-sub-label" style="margin-top:.55rem">Vector DBs</div>
-          <div class="skill-chips">
-            <span class="chip">Chroma</span>
-            <span class="chip">Qdrant</span>
-          </div>
+        <div class="sub-label">Local / open models</div>
+        <div class="chips">
+          <span class="chip">Hugging Face</span>
+          <span class="chip">Ollama</span>
+          <span class="chip">RunPod</span>
         </div>
+      </div>
 
-        <div class="skill-section">
-          <div class="skill-label">Agentic AI</div>
-          <div class="skill-chips">
-            <span class="chip">LangGraph</span>
-            <span class="chip">AI Agents</span>
-            <span class="chip">RAG</span>
-          </div>
+      <div class="skill-cat">
+        <div class="skill-cat-name">Generative AI</div>
+        <div class="chips">
+          <span class="chip">LangChain</span>
+          <span class="chip">LlamaIndex</span>
         </div>
+        <div class="sub-label">Vector DBs</div>
+        <div class="chips">
+          <span class="chip">Chroma</span>
+          <span class="chip">Qdrant</span>
+        </div>
+      </div>
 
+      <div class="skill-cat">
+        <div class="skill-cat-name">Agentic AI</div>
+        <div class="chips">
+          <span class="chip">LangGraph</span>
+          <span class="chip">AI Agents</span>
+          <span class="chip">RAG</span>
+        </div>
       </div>
     </div>
 
-    <hr>
+    <hr class="skill-divider">
 
-    <!-- 02 Languages -->
-    <div class="skill-group">
-      <div class="skill-domain-name">Languages</div>
-      <div class="skill-chips">
+    <!-- Languages -->
+    <div class="skill-block">
+      <div class="skill-block-name">Languages</div>
+      <div class="chips">
         <span class="chip">Python</span>
         <span class="chip">C++</span>
         <span class="chip">JavaScript</span>
@@ -395,21 +408,21 @@ hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
       </div>
     </div>
 
-    <hr>
+    <hr class="skill-divider">
 
-    <!-- 03 Web Dev -->
-    <div class="skill-group">
-      <div class="skill-domain-name">Web Development</div>
-      <div class="skill-section">
-        <div class="skill-label">Frontend</div>
-        <div class="skill-chips">
+    <!-- Web Dev -->
+    <div class="skill-block">
+      <div class="skill-block-name">Web Development</div>
+      <div class="skill-cat">
+        <div class="skill-cat-name">Frontend</div>
+        <div class="chips">
           <span class="chip">React</span>
           <span class="chip">Next.js</span>
         </div>
       </div>
-      <div class="skill-section" style="margin-top:.75rem">
-        <div class="skill-label">Backend</div>
-        <div class="skill-chips">
+      <div class="skill-cat">
+        <div class="skill-cat-name">Backend</div>
+        <div class="chips">
           <span class="chip">FastAPI</span>
           <span class="chip">Fastify</span>
           <span class="chip">Express.js</span>
@@ -417,224 +430,203 @@ hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
       </div>
     </div>
 
-    <hr>
+    <hr class="skill-divider">
 
-    <!-- 04 Tools -->
-    <div class="skill-group">
-      <div class="skill-domain-name">Tools</div>
-      <div class="skill-chips">
-        <span class="chip">Git</span>
-        <span class="chip">Docker</span>
+    <!-- Tools + Deployment side by side -->
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem;">
+      <div class="skill-block" style="margin-bottom:0">
+        <div class="skill-block-name">Tools</div>
+        <div class="chips">
+          <span class="chip">Git</span>
+          <span class="chip">Docker</span>
+        </div>
       </div>
-    </div>
-
-    <hr>
-
-    <!-- 05 Deployment -->
-    <div class="skill-group">
-      <div class="skill-domain-name">Deployment</div>
-      <div class="skill-chips">
-        <span class="chip">AWS</span>
-        <span class="chip">Vercel</span>
-        <span class="chip">Netlify</span>
+      <div class="skill-block" style="margin-bottom:0">
+        <div class="skill-block-name">Deployment</div>
+        <div class="chips">
+          <span class="chip">AWS</span>
+          <span class="chip">Vercel</span>
+          <span class="chip">Netlify</span>
+        </div>
       </div>
     </div>
 
   </div>
 
-  <hr>
-
-  <!-- Experience -->
+  <!-- ── Experience ── -->
   <div class="section" id="career">
-    <div class="section-title">Experience</div>
-    <div class="exp-list">
+    <div class="sec-title">Experience</div>
 
-      <div class="exp-item">
-        <div>
-          <div class="exp-company">
-            GIT Software Technologies Limited
-            <span class="badge-working">Working</span>
-          </div>
-          <div class="exp-role">AI Engineer Intern</div>
-          <div class="exp-desc">Working on production AI systems including voice agents and computer vision.</div>
+    <div class="exp-item">
+      <div>
+        <div class="exp-company">
+          GIT Software Technologies
+          <span class="badge-working">Working</span>
         </div>
-        <div class="exp-meta">
-          <div class="exp-dates">February 2026 — Present</div>
-          <div class="exp-location">India (On-Site)</div>
-        </div>
+        <div class="exp-role">AI Engineer Intern</div>
+        <div class="exp-desc">Building production AI systems — voice agents and computer vision pipelines.</div>
       </div>
-
-      <div class="exp-item">
-        <div>
-          <div class="exp-company">Freelance</div>
-          <div class="exp-role">Resort booking website</div>
-          <div class="exp-desc">Built a full booking site with UPI payments for a client. Next.js, Supabase, Razorpay, Cashfree.</div>
-        </div>
-        <div class="exp-meta">
-          <div class="exp-dates">2025</div>
-          <div class="exp-location">Remote</div>
-        </div>
+      <div class="exp-meta">
+        <div class="exp-dates">Feb 2026 — Present</div>
+        <div class="exp-loc">India, On-Site</div>
       </div>
-
-      <div class="exp-item">
-        <div>
-          <div class="exp-company">Full-Stack Developer</div>
-          <div class="exp-role">Self-directed</div>
-          <div class="exp-desc">Started on the MERN stack, then moved into AI engineering.</div>
-        </div>
-        <div class="exp-meta">
-          <div class="exp-dates">Earlier</div>
-        </div>
-      </div>
-
     </div>
+
+    <div class="exp-item">
+      <div>
+        <div class="exp-company">Freelance</div>
+        <div class="exp-role">Resort Booking Website</div>
+        <div class="exp-desc">Full booking site with UPI payments for a client.</div>
+        <div class="exp-stack">Next.js · Supabase · Razorpay · Cashfree</div>
+      </div>
+      <div class="exp-meta">
+        <div class="exp-dates">2025</div>
+        <div class="exp-loc">Remote</div>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div>
+        <div class="exp-company">Self-directed</div>
+        <div class="exp-role">Full-Stack Developer</div>
+        <div class="exp-desc">Started on the MERN stack, then moved into AI engineering.</div>
+      </div>
+      <div class="exp-meta">
+        <div class="exp-dates">Earlier</div>
+      </div>
+    </div>
+
   </div>
 
-  <hr>
-
-  <!-- Education -->
+  <!-- ── Education ── -->
   <div class="section">
-    <div class="section-title">Education</div>
-    <div class="exp-list">
-      <div class="exp-item">
-        <div>
-          <div class="exp-company">Dr. Ambedkar Institute of Technology for Divyangjan</div>
-          <div class="exp-role">B.Tech — Computer Science (AI &amp; ML)</div>
-          <div class="exp-desc">Final year student.</div>
-        </div>
-        <div class="exp-meta">
-          <div class="exp-dates">Graduating May 2027</div>
-        </div>
+    <div class="sec-title">Education</div>
+    <div class="exp-item">
+      <div>
+        <div class="exp-company">Dr. Ambedkar Institute of Technology for Divyangjan</div>
+        <div class="exp-role">B.Tech — Computer Science (AI &amp; ML)</div>
+        <div class="exp-desc">Final year.</div>
+      </div>
+      <div class="exp-meta">
+        <div class="exp-dates">Graduating May 2027</div>
       </div>
     </div>
   </div>
 
-  <hr>
-
-  <!-- Projects -->
+  <!-- ── Projects ── -->
   <div class="section" id="projects">
-    <div class="section-title">Projects</div>
-    <div class="proj-list">
+    <div class="sec-title">Projects</div>
 
-      <div class="proj-item">
-        <div class="proj-header">
-          <span class="proj-name">Nexus</span>
-          <span class="proj-tag">Lead project</span>
-        </div>
-        <div class="proj-desc">A self-healing AI agent built on NestJS.</div>
-        <div class="proj-stack">NestJS · AI agents</div>
-        <div class="proj-links">
-          <a href="https://github.com/YOUR-USERNAME/nexus" target="_blank" rel="noopener">Code</a>
-        </div>
+    <div class="proj-item">
+      <div class="proj-header">
+        <span class="proj-name">Nexus</span>
+        <span class="proj-tag">Lead project</span>
       </div>
-
-      <div class="proj-item">
-        <div class="proj-header">
-          <span class="proj-name">TheResearcher</span>
-          <span class="proj-tag">Prototype</span>
-        </div>
-        <div class="proj-desc">Multi-agent research assistant that searches the web and streams progress to a frontend.</div>
-        <div class="proj-stack">LangGraph · FastAPI · Gemini · Tavily · SSE</div>
-        <div class="proj-links">
-          <a href="https://github.com/YOUR-USERNAME/theresearcher" target="_blank" rel="noopener">Code</a>
-        </div>
+      <div class="proj-desc">A self-healing AI agent built on NestJS that detects and recovers from failures autonomously.</div>
+      <div class="proj-stack">NestJS · AI agents</div>
+      <div class="proj-links">
+        <a href="https://github.com/YOUR-USERNAME/nexus" target="_blank" rel="noopener">Code</a>
       </div>
-
-      <div class="proj-item">
-        <div class="proj-header">
-          <span class="proj-name">DocuMind</span>
-        </div>
-        <div class="proj-desc">Upload a PDF and ask questions using retrieval-augmented generation.</div>
-        <div class="proj-stack">Python · FastAPI · LangChain · ChromaDB · Gemini</div>
-        <div class="proj-links">
-          <a href="https://github.com/YOUR-USERNAME/documind" target="_blank" rel="noopener">Code</a>
-        </div>
-      </div>
-
-      <div class="proj-item">
-        <div class="proj-header">
-          <span class="proj-name">JobPilot</span>
-        </div>
-        <div class="proj-desc">Full-stack AI job-hunting assistant for technical job seekers.</div>
-        <div class="proj-stack">Next.js · Gemini · Browserbase · Stagehand · JSearch API</div>
-        <div class="proj-links">
-          <a href="https://github.com/YOUR-USERNAME/jobpilot" target="_blank" rel="noopener">Code</a>
-        </div>
-      </div>
-
-      <div class="proj-item">
-        <div class="proj-header">
-          <span class="proj-name">Shopkeeper App</span>
-          <span class="proj-tag">In progress</span>
-        </div>
-        <div class="proj-desc">Mobile app for small shops — sales calendar, expense tracking, profit reports, admin panel.</div>
-        <div class="proj-stack">React Native</div>
-        <div class="proj-links">
-          <a href="https://github.com/YOUR-USERNAME/shopkeeper-app" target="_blank" rel="noopener">Code</a>
-        </div>
-      </div>
-
-      <div class="proj-item">
-        <div class="proj-header">
-          <span class="proj-name">Insurance Premium Predictor</span>
-          <span class="proj-tag live">Deployed</span>
-        </div>
-        <div class="proj-desc">ML model that predicts insurance premiums with an API and web interface.</div>
-        <div class="proj-stack">FastAPI · scikit-learn · React · Vite · Render · Netlify</div>
-        <div class="proj-links">
-          <a href="https://github.com/YOUR-USERNAME/insurance-premium-predictor" target="_blank" rel="noopener">Code</a>
-          <a href="https://YOUR-SITE.netlify.app" target="_blank" rel="noopener">Live</a>
-        </div>
-      </div>
-
     </div>
+
+    <div class="proj-item">
+      <div class="proj-header">
+        <span class="proj-name">TheResearcher</span>
+        <span class="proj-tag">Prototype</span>
+      </div>
+      <div class="proj-desc">Multi-agent research assistant that searches the web and streams progress live to a frontend.</div>
+      <div class="proj-stack">LangGraph · FastAPI · Gemini · Tavily · SSE streaming</div>
+      <div class="proj-links">
+        <a href="https://github.com/YOUR-USERNAME/theresearcher" target="_blank" rel="noopener">Code</a>
+      </div>
+    </div>
+
+    <div class="proj-item">
+      <div class="proj-header">
+        <span class="proj-name">DocuMind</span>
+      </div>
+      <div class="proj-desc">Upload any PDF and ask questions — answers come from the document via retrieval-augmented generation.</div>
+      <div class="proj-stack">Python · FastAPI · LangChain · ChromaDB · Gemini</div>
+      <div class="proj-links">
+        <a href="https://github.com/YOUR-USERNAME/documind" target="_blank" rel="noopener">Code</a>
+      </div>
+    </div>
+
+    <div class="proj-item">
+      <div class="proj-header">
+        <span class="proj-name">JobPilot</span>
+      </div>
+      <div class="proj-desc">Full-stack AI job-hunting assistant — finds jobs, tailors applications, and tracks progress.</div>
+      <div class="proj-stack">Next.js · Gemini · Browserbase · Stagehand · JSearch API</div>
+      <div class="proj-links">
+        <a href="https://github.com/YOUR-USERNAME/jobpilot" target="_blank" rel="noopener">Code</a>
+      </div>
+    </div>
+
+    <div class="proj-item">
+      <div class="proj-header">
+        <span class="proj-name">Shopkeeper App</span>
+        <span class="proj-tag progress">In progress</span>
+      </div>
+      <div class="proj-desc">Mobile app for small shops — calendar sales entry, expense tracking, profit reports, admin panel.</div>
+      <div class="proj-stack">React Native</div>
+      <div class="proj-links">
+        <a href="https://github.com/YOUR-USERNAME/shopkeeper-app" target="_blank" rel="noopener">Code</a>
+      </div>
+    </div>
+
+    <div class="proj-item">
+      <div class="proj-header">
+        <span class="proj-name">Insurance Premium Predictor</span>
+        <span class="proj-tag live">Deployed</span>
+      </div>
+      <div class="proj-desc">ML model that predicts insurance premiums, served through a REST API with a web interface.</div>
+      <div class="proj-stack">FastAPI · scikit-learn · React · Vite · Render · Netlify</div>
+      <div class="proj-links">
+        <a href="https://github.com/YOUR-USERNAME/insurance-premium-predictor" target="_blank" rel="noopener">Code</a>
+        <a href="https://YOUR-SITE.netlify.app" target="_blank" rel="noopener">Live</a>
+      </div>
+    </div>
+
   </div>
 
-  <hr>
-
-  <!-- Aim -->
+  <!-- ── Aim ── -->
   <div class="section" id="aim">
-    <div class="section-title">Aim</div>
-    <p style="font-size:14px; margin-bottom:1.25rem; max-width:44ch; line-height:1.7;">
-      To build agentic AI and LLM systems that hold up in production.
-    </p>
-    <div class="aim-items">
-      <div class="aim-item"><span class="aim-arrow">—</span> Going deep on agent design, LLM engineering, and how these systems fail in practice.</div>
-      <div class="aim-item"><span class="aim-arrow">—</span> Learning by building and shipping projects, not just reading about them.</div>
-      <div class="aim-item"><span class="aim-arrow">—</span> Writing about the work in public, one day at a time.</div>
+    <div class="sec-title">Aim</div>
+    <p class="aim-lead">To build agentic AI and LLM systems that hold up in production.</p>
+    <div>
+      <div class="aim-item"><span class="aim-dash">—</span> Going deep on agent design, LLM engineering, and how these systems fail in practice.</div>
+      <div class="aim-item"><span class="aim-dash">—</span> Learning by building and shipping projects, not just reading about them.</div>
+      <div class="aim-item"><span class="aim-dash">—</span> Writing about the work in public, one day at a time.</div>
     </div>
   </div>
 
-  <hr>
-
-  <!-- Daily log -->
+  <!-- ── Daily log ── -->
   <div class="section" id="log">
-    <div class="section-title">Daily log</div>
-    <div class="log-list" id="log-list"></div>
+    <div class="sec-title">Daily log</div>
+    <div id="log-list"></div>
   </div>
 
   <!-- Footer -->
   <div class="footer">
-    <div class="footer-inner">
-      <span>Shikhar</span>
-      <div class="footer-links">
-        <a href="mailto:YOUR-EMAIL@example.com">Email</a>
-        <a href="https://github.com/YOUR-USERNAME" target="_blank" rel="noopener">GitHub</a>
-        <a href="https://www.linkedin.com/in/YOUR-USERNAME" target="_blank" rel="noopener">LinkedIn</a>
-      </div>
+    <span>Shikhar — AI Engineer</span>
+    <div class="footer-links">
+      <a href="mailto:YOUR-EMAIL@example.com">Email</a>
+      <a href="https://github.com/YOUR-USERNAME" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/YOUR-USERNAME" target="_blank" rel="noopener">LinkedIn</a>
     </div>
   </div>
 
 </div>
 
 
-<!-- =========================================================
-     DAILY LOG — only edit this section
+<!-- ═══════════════════════════════════════════════════════════
+     DAILY LOG — only edit here
 
      Copy a { } block, change date / title / body.
-     Date format: YYYY-MM-DD.
-     Separate paragraphs in "body" with \n\n.
-     ========================================================= -->
+     Date format: YYYY-MM-DD
+     Separate paragraphs in "body" with \n\n
+     ═══════════════════════════════════════════════════════════ -->
 <script>
 const posts = [
   {
@@ -645,40 +637,38 @@ const posts = [
   {
     date: "2026-09-19",
     title: "Sample entry — edit or delete me",
-    body: "Each entry is one block in the posts array.\n\nCopy it, change the date, title and text. Delete a block to remove that entry."
+    body: "Each entry is one block in the posts array.\n\nCopy it, change the date, title and body. Delete a block to remove it."
   },
 ];
 </script>
 
-
 <script>
-/* ── Theme toggle ── */
+/* ── Theme ── */
 const btn  = document.getElementById("themeBtn");
 const root = document.documentElement;
-
 function setTheme(t) {
   root.setAttribute("data-theme", t);
   btn.textContent = t === "dark" ? "Light" : "Dark";
-  try { localStorage.setItem("theme", t); } catch(e) {}
+  try { localStorage.setItem("theme", t); } catch(e){}
 }
 btn.addEventListener("click", () => setTheme(root.getAttribute("data-theme") === "dark" ? "light" : "dark"));
-try { const s = localStorage.getItem("theme"); if (s) setTheme(s); } catch(e) {}
+try { const s = localStorage.getItem("theme"); if(s) setTheme(s); } catch(e){}
 
-/* ── Render daily log ── */
-(function() {
+/* ── Daily log ── */
+(function(){
   const el = document.getElementById("log-list");
   const sorted = [...posts].sort((a,b) => a.date < b.date ? 1 : -1);
-  if (!sorted.length) {
-    el.innerHTML = '<p style="font-size:13px;color:var(--sub)">No entries yet.</p>';
+  if(!sorted.length){
+    el.innerHTML='<p style="font-size:14px;color:var(--sub)">No entries yet.</p>';
     return;
   }
   sorted.forEach((p, i) => {
     const det = document.createElement("details");
     det.className = "log-item";
-    if (i === 0) det.open = true;
-    const d = new Date(p.date + "T00:00:00").toLocaleDateString("en-IN", { day:"numeric", month:"short", year:"numeric" });
-    const bodyHtml = String(p.body).split("\n\n").map(t => `<p>${t}</p>`).join("");
-    det.innerHTML = `<summary><span class="log-date">${d}</span><span class="log-title">${p.title}</span></summary><div class="log-body">${bodyHtml}</div>`;
+    if(i===0) det.open = true;
+    const d = new Date(p.date+"T00:00:00").toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"});
+    const body = String(p.body).split("\n\n").map(t=>`<p>${t}</p>`).join("");
+    det.innerHTML = `<summary><span class="log-date">${d}</span><span class="log-title">${p.title}</span></summary><div class="log-body">${body}</div>`;
     el.appendChild(det);
   });
 })();
